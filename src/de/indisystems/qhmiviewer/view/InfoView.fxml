@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright 2017 Indi.Systems GmbH
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	    http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.indisystems.qhmiviewer.model.InfoController">
+   <children>
+      <HBox>
+         <children>
+            <Label text="QuickHMI" textFill="#1a1c7e">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="Viewer" textFill="#1a1c7e">
+               <HBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lblVersion" />
+      <Label text="Copyright 2017 Indi.Systems GmbH" wrapText="true" />
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="75.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="385.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="22.0" text="Internet: " />
+            <Label prefHeight="22.0" text="Support: " GridPane.rowIndex="1" />
+            <Label prefHeight="22.0" text="Git: " GridPane.rowIndex="2" />
+            <Hyperlink fx:id="linkInternet" onMouseClicked="#onLinkInternetClick" GridPane.columnIndex="1" />
+            <Hyperlink fx:id="linkSupport" onMouseClicked="#onLinkSupportClick" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Hyperlink fx:id="linkGit" onMouseClicked="#onGitClick" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+         <padding>
+            <Insets left="30.0" top="20.0" />
+         </padding>
+      </GridPane>
+      <Button fx:id="bttOk" mnemonicParsing="false" onMouseClicked="#onBttOkClick" text="  OK  ">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

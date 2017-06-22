@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright 2017 Indi.Systems GmbH
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	    http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox fx:id="vboxMainContainer" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../../../../resources/javaUiStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.indisystems.qhmiviewer.model.ModelController">
+   <children>
+	  <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="%file">
+            <items>
+           	  <MenuItem fx:id="menuItemCloseProject" mnemonicParsing="false" text="%close_project" />
+              <MenuItem id="menuClose" fx:id="menuItemClosePlayer" mnemonicParsing="false" text="%close_player" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="%help">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onBttInfoClick" text="Info" />
+                  <MenuItem mnemonicParsing="false" onAction="#onBttForumClick" text="Forum" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <ProgressIndicator fx:id="progressIndicator" prefHeight="50.0" prefWidth="1024.0" scaleX="0.1" scaleY="0.1" scaleZ="0.5" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

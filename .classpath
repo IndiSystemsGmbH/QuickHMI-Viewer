@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/jxbrowser-6.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/jxbrowser-linux32-6.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/jxbrowser-linux64-6.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/jxbrowser-mac-6.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/jxbrowser-win32-6.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/jxbrowser/licence.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/log4j/log4j-api-2.8.2.jar"/>
+	<classpathentry kind="lib" path="C:/APL/TFS/QuickHMI/IndiVisu_MAIN/java/Dragonfly/QHMIViewer/libs/log4j/log4j-core-2.8.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
