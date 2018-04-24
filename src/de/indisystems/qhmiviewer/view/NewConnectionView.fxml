@@ -72,7 +72,7 @@
                   <Insets />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="editPort" text="7072" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="editPort" text="6062" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <CheckBox fx:id="chkDefault" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <CheckBox fx:id="chkSsl" mnemonicParsing="false" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>

@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
@@ -29,7 +30,12 @@ import org.apache.logging.log4j.LogManager;
 
 import com.teamdev.jxbrowser.chromium.BeforeSendHeadersParams;
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserContext;
+import com.teamdev.jxbrowser.chromium.BrowserContextParams;
+import com.teamdev.jxbrowser.chromium.BrowserException;
 import com.teamdev.jxbrowser.chromium.HttpHeadersEx;
+import com.teamdev.jxbrowser.chromium.events.ConsoleEvent;
+import com.teamdev.jxbrowser.chromium.events.ConsoleListener;
 import com.teamdev.jxbrowser.chromium.events.FailLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.FrameLoadEvent;
@@ -113,7 +119,20 @@ public class ModelController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		addListeners();
 		
-		browser = new Browser();
+		int counter = 1;
+		Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), "chromium");
+		
+		while(browser == null || browser.getContext() == null) {
+			try {
+				if(counter > 100) {
+					break;
+				}
+				BrowserContext browserContext = new BrowserContext(new BrowserContextParams(Paths.get(tempPath.toString(), "JxBrowser_" + counter++).toString()));
+				browser = new Browser(browserContext);
+			} catch(BrowserException ex) {
+			}
+		}
+		
 		browser.getContext().getNetworkService().setNetworkDelegate(new DefaultNetworkDelegate() {
 		    @Override
 		    public void onBeforeSendHeaders(BeforeSendHeadersParams params) {
@@ -145,7 +164,6 @@ public class ModelController implements Initializable {
 					String errorMessage = String.format(resources.getString("server_not_available"), connection.getUrl());
 					String error = errorTemplate.replace("{0}", errorMessage);
 					browser.loadHTML(error);
-					System.out.println("onFailLoadingFrame: " + arg0.toString());
 				}catch(IOException ex){
 					LogManager.getLogger().error(ex.getLocalizedMessage(), ex);
 				}
@@ -157,6 +175,29 @@ public class ModelController implements Initializable {
 			
 			@Override
 			public void onDocumentLoadedInFrame(FrameLoadEvent arg0) {
+			}
+		});
+		
+		browser.addConsoleListener(new ConsoleListener() {
+			
+			@Override
+			public void onMessage(ConsoleEvent consoleEvent) {
+				switch(consoleEvent.getLevel()) {
+					case DEBUG:
+						LogManager.getLogger().debug(consoleEvent.getMessage());
+						break;
+					case ERROR:
+						LogManager.getLogger().error(consoleEvent.getMessage());
+						break;
+					case LOG:
+						LogManager.getLogger().info(consoleEvent.getMessage());
+						break;
+					case WARNING:
+						LogManager.getLogger().warn(consoleEvent.getMessage());
+						break;
+					default:
+						break;
+				}
 			}
 		});
 		

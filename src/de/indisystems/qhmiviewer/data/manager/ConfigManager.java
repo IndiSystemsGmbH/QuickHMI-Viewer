@@ -37,7 +37,7 @@ public class ConfigManager {
 	
 	public static void init(DataHandler dataHandler){
 		try{
-			configFile = new File(dataHandler.appDataDir+"\\config\\default.properties");
+			configFile = new File(dataHandler.programDataDir+"\\config\\default.properties");
 			
 			if(!configFile.exists()){
 				configFile.getParentFile().mkdirs();

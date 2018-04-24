@@ -19,9 +19,13 @@ package de.indisystems.qhmiviewer;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
+
+import com.teamdev.jxbrowser.chromium.BrowserCore;
+import com.teamdev.jxbrowser.chromium.internal.Environment;
 
 import de.indisystems.qhmiviewer.data.DataHandler;
 import de.indisystems.qhmiviewer.data.manager.ConfigManager;
@@ -32,22 +36,33 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.image.Image;
 
 public class Main extends Application {
 	public static final Image ICON = new Image(Main.class.getResourceAsStream("/resources/images/icon.png"));
 	
-	public static Version currentVersion = new Version("5.5.0");
+	public static Version currentVersion = new Version("6.6");
 	
 	public static boolean paramLocalhost = false;
 	public static String paramAddress = null;
-	public static int paramPort = 7072;
-	public static boolean paramSsl = true;
+	public static int paramPort = 6062;
+	public static boolean paramSsl = false;
 	public static String paramConnection = null;
 	
 	@Override
+	public void init() throws Exception {
+		System.setProperty("logfiledir", Paths.get(DataHandler.getAppDataDir(), "logs", "viewer").toString());
+		
+	    // On Mac OS X Chromium engine must be initialized in non-UI thread.
+	    if (Environment.isMac()) {
+	        BrowserCore.initialize();
+	    }
+	}
+	
+	@Override
 	public void start(Stage primaryStage) {
-		try {				
+		try {						
 			List<String> params = getParameters().getUnnamed();
 			
 			for(String param : params){
@@ -57,8 +72,8 @@ public class Main extends Application {
 					paramAddress = param.substring(9);
 				} else if(param.startsWith("-port=")){
 					paramPort = Integer.parseInt(param.substring(6));
-				} else if(param.startsWith("-ssl=")){
-					paramSsl = Boolean.parseBoolean(param.substring(5));
+				} else if(param.equals("-ssl")){
+					paramSsl = true;
 				} else if(param.startsWith("-connection=")){
 					paramConnection = param.substring(12);
 				}

@@ -34,12 +34,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Window;
 
 public class InfoController implements Initializable {
-	@FXML Button bttOk;
-	@FXML Label lblVersion;
+	@FXML private Button bttOk;
+	@FXML private Label lblVersion;
 	
-	@FXML Hyperlink linkInternet;
-	@FXML Hyperlink linkSupport;
-	@FXML Hyperlink linkGit;
+	@FXML private Hyperlink linkInternet;
+	@FXML private Hyperlink linkSupport;
+	@FXML private Hyperlink linkGit;
 	
 	private URI internetUri;
 	private URI supportUri;

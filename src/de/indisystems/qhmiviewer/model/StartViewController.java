@@ -98,6 +98,7 @@ public class StartViewController implements Initializable {
 	private DataHandler dataHandler;
 	private Stage startViewStage;
 	
+	@FXML
 	public void onMenuItemCloseClick(){
 		Platform.exit();
 		System.exit(0);
@@ -121,9 +122,8 @@ public class StartViewController implements Initializable {
 		
 		this.dataHandler = dataHandler;
 		
-		
 		if(Main.paramLocalhost){
-			Connection temp = new Connection("Editor Runtime", "localhost", Main.paramPort, 0, -1, true);
+			Connection temp = new Connection("Editor Runtime", "localhost", Main.paramPort, 0, -1, Main.paramSsl);
 			connect(temp);
 		}else{			
 			lblStartHeader.setText(resources.getString("welcome_header"));

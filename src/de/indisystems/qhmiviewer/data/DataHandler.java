@@ -36,7 +36,7 @@ import javafx.collections.ObservableList;
 
 public class DataHandler {
 
-	public String appDataDir;
+	public static String programDataDir;
 
 	private ArrayList<Connection> connections = new ArrayList<Connection>();
 
@@ -44,35 +44,54 @@ public class DataHandler {
 
 	public DataHandler() {
 		try {
-			getAppDataDir();
+			programDataDir = getAppDataDir();
 			initConnections();
 		} catch (Exception e) {
 			LogManager.getLogger().error(e.getLocalizedMessage(), e);
 		}
 	}
 
-	private void getAppDataDir() {
-		if (OSValidator.getOS() == eOS.Windows) {
-			appDataDir = System.getenv("AppData") + "\\Indi.Systems GmbH\\QuickHMI Viewer v"
-					+ Main.currentVersion.getMajor();
-		} else if (OSValidator.getOS() == eOS.Unix_LINUX) {
-			appDataDir = System.getProperty("user.home") + "/Indi.Systems GmbH/QuickHMI Viewer v"
-					+ Main.currentVersion.getMajor();
-		} else if (OSValidator.getOS() == eOS.MacOS) {
-			appDataDir = System.getProperty("user.home")
-					+ "/Library/Application Support/Indi.Systems GmbH/QuickHMI Viewer v"
-					+ Main.currentVersion.getMajor();
-		}
+	public static String getAppDataDir() {
+		if(programDataDir == null) {
+			if (OSValidator.getOS() == eOS.Windows) {			
+				programDataDir = System.getenv("SystemDrive") + "\\ProgramData\\Indi.Systems\\QuickHMI Viewer v" + Main.currentVersion.getMajor();
+			} else if (OSValidator.getOS() == eOS.Unix_LINUX) {
+				programDataDir = "/usr/share/Indi.Systems/QuickHMI Viewer v" + Main.currentVersion.getMajor();
+			} else if (OSValidator.getOS() == eOS.MacOS) {
+				programDataDir = System.getProperty("user.home") + "/Library/Application Support/Indi.Systems/QuickHMI Viewer v" + Main.currentVersion.getMajor();
+			}
+			
+			File file = new File(programDataDir);
+			if(!file.exists()) {
+				file.mkdirs();
+				
+				if(file.exists()) {
+					if(OSValidator.getOS() == eOS.Unix_LINUX) {
+						String bashCommand = "sudo chmod -R 777 " + file.getAbsolutePath();
 		
-		LogManager.getLogger().info("Set appdata directory: '" + appDataDir + "'");
+						try {
+							Runtime.getRuntime().exec(bashCommand);
+						} catch (IOException e) {
+							LogManager.getLogger().error("Can't change mode of directory '" + file.getAbsolutePath() + "'.", e);
+						}
+					}
+				} else {
+					LogManager.getLogger().warn("Couldn't create programdata directory: '" + file.getAbsolutePath() + "'.");
+				}
+			}
+			
+			return programDataDir;
+		} else {
+			return programDataDir;
+		}
 	}
 
 	private void initConnections() {
 		try {
 			if (OSValidator.getOS() == eOS.Windows) {
-				fileConnections = new File(appDataDir + "\\config\\recent_connections.txt");
+				fileConnections = new File(programDataDir + "\\config\\recent_connections.txt");
 			} else {
-				fileConnections = new File(appDataDir + "/config/recent_connections.txt");
+				fileConnections = new File(programDataDir + "/config/recent_connections.txt");
 			}
 
 			if (!fileConnections.exists()) {
@@ -96,7 +115,7 @@ public class DataHandler {
 						try {
 							port = Integer.parseInt(conArray[3]);
 						} catch (Exception ex) {
-							port = 7072;
+							port = 6062;
 						}
 
 						connections.add(new Connection(conArray[1], conArray[2], port, Long.parseLong(conArray[4]),
@@ -108,7 +127,7 @@ public class DataHandler {
 						try {
 							port = Integer.parseInt(conArray[3]);
 						} catch (Exception ex) {
-							port = 7072;
+							port = 6062;
 						}
 
 						connections.add(new Connection(conArray[1], conArray[2], port, Long.parseLong(conArray[5]),

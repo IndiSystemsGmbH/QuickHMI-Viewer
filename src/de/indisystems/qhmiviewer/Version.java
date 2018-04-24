@@ -23,10 +23,11 @@ public class Version{
 
 	public static final int BONOBO = 4;
 	public static final int CHEETAH = 5;
+	public static final int DRAGONFLY = 6;
 	
-	private Integer major;
-	private Integer minor;
-	private Integer patch;
+	private Integer major = 0;
+	private Integer minor = 0;
+	private Integer patch = 0;
 
 	public Version(int[] version){
 		this.major = version[0];
@@ -90,6 +91,6 @@ public class Version{
 	
 	@Override
 	public String toString() {
-		return this.major+"."+this.minor+"."+this.patch;
+		return this.major+"."+this.minor+"."+this.patch+".0";
 	}
 }
