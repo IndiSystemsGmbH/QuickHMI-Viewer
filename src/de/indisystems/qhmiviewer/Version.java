@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Indi.Systems GmbH
+	Copyright 2018 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ public class Version{
 	public static final int BONOBO = 4;
 	public static final int CHEETAH = 5;
 	public static final int DRAGONFLY = 6;
+	public static final int EAGLE = 7;
 	
 	private Integer major = 0;
 	private Integer minor = 0;

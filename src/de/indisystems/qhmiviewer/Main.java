@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Indi.Systems GmbH
+	Copyright 2018 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ import javafx.scene.image.Image;
 public class Main extends Application {
 	public static final Image ICON = new Image(Main.class.getResourceAsStream("/resources/images/icon.png"));
 	
-	public static Version currentVersion = new Version("6.6");
+	public static Version currentVersion = new Version("7.3");
 	
 	public static boolean paramLocalhost = false;
 	public static String paramAddress = null;
@@ -62,7 +62,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		try {						
+		try {					
 			List<String> params = getParameters().getUnnamed();
 			
 			for(String param : params){

@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Indi.Systems GmbH
+	Copyright 2018 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import com.teamdev.jxbrowser.chromium.BeforeSendHeadersParams;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserContextParams;
+import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.BrowserException;
 import com.teamdev.jxbrowser.chromium.HttpHeadersEx;
 import com.teamdev.jxbrowser.chromium.events.ConsoleEvent;
@@ -43,6 +44,7 @@ import com.teamdev.jxbrowser.chromium.events.LoadEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadListener;
 import com.teamdev.jxbrowser.chromium.events.ProvisionalLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.StartLoadingEvent;
+import com.teamdev.jxbrowser.chromium.internal.Environment;
 import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 import com.teamdev.jxbrowser.chromium.javafx.DefaultNetworkDelegate;
 
@@ -250,6 +252,19 @@ public class ModelController implements Initializable {
 
 	@FXML
 	private void onMenuItemCloseProjectClick() {
+		if (Environment.isWindows()) {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					browser.dispose();
+				}
+			}).start();
+	        BrowserCore.initialize();
+	    } else {
+			browser.dispose();
+	    }
+		
 		loadStartView();
 	}
 
