@@ -1,5 +1,5 @@
 /*
-	Copyright 2018 Indi.Systems GmbH
+	Copyright 2019 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -22,12 +22,16 @@ import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 
+import de.indisystems.qhmiviewer.model.ModelController;
+import de.indisystems.qhmiviewer.model.StartViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 public class SceneManager {	
 	private static Object lastController;
+	private static StartViewController startViewController;
+	private static ModelController modelController;
 	
 	public static Scene getScene(String view, Locale locale){
 		try{
@@ -48,11 +52,26 @@ public class SceneManager {
 			}
 			
 			lastController = loader.getController();
+			
+			if(lastController instanceof ModelController) {
+				modelController = (ModelController)lastController;
+			} else if(lastController instanceof StartViewController) {
+				startViewController = (StartViewController)lastController;
+			}
+			
 			return new Scene(root);
 		}catch(Exception e){
 			LogManager.getLogger().error(e.getLocalizedMessage(), e);
 			return null;
 		}
+	}
+	
+	public static StartViewController getStartViewController() {
+		return startViewController;
+	}
+	
+	public static ModelController getModelController() {
+		return modelController;
 	}
 	
 	public static Object getLastController(){

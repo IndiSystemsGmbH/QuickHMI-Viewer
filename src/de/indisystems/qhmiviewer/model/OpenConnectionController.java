@@ -1,5 +1,5 @@
 /*
-	Copyright 2018 Indi.Systems GmbH
+	Copyright 2019 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

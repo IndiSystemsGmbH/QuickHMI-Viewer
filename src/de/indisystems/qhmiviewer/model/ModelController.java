@@ -1,5 +1,5 @@
 /*
-	Copyright 2018 Indi.Systems GmbH
+	Copyright 2019 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -222,10 +223,33 @@ public class ModelController implements Initializable {
 		this.stage.getIcons().add(Main.ICON);
 		
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
+			
 			@Override
 			public void handle(WindowEvent event) {
-				shutDown();
+				if(Main.paramMachineMode) {
+					event.consume();
+				} else {
+					shutDown();
+				}
+			}
+		});
+		
+		stage.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if(Main.paramMachineModePw != null) {
+					Main.lastInput += event.getCharacter();
+
+					if(Main.lastInput.equals(Main.paramMachineModePw)) {
+						Main.lastInput = "";
+						Main.setMachineModeEnabled(!Main.paramMachineMode);
+					} else {
+						if(Main.lastInput.length() >= Main.paramMachineModePw.length()) {
+							Main.lastInput = Main.lastInput.substring(1);
+						}
+					}
+				}
 			}
 		});
 		
@@ -329,5 +353,17 @@ public class ModelController implements Initializable {
 				});
 			}
 		}).start();
+	}
+	
+	public void hideCloseMenu() {
+		menuItemClosePlayer.setVisible(false);
+	}
+	
+	public void showCloseMenu() {
+		menuItemClosePlayer.setVisible(true);
+	}
+	
+	public Stage getStage() {
+		return stage;
 	}
 }

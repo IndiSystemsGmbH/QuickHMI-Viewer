@@ -1,5 +1,5 @@
 /*
-	Copyright 2018 Indi.Systems GmbH
+	Copyright 2019 Indi.Systems GmbH
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -47,9 +47,11 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -82,6 +84,7 @@ public class StartViewController implements Initializable {
 	@FXML private ImageView imgBttMenuItem4;
 	
 	@FXML private MenuItem menuItemClose;
+	@FXML private SeparatorMenuItem menuItemCloseSeparator;
 	
 	@FXML private Label lblStartHeader;
 	@FXML private Label lblStartContent;
@@ -96,7 +99,7 @@ public class StartViewController implements Initializable {
 
 	private ResourceBundle resources;
 	private DataHandler dataHandler;
-	private Stage startViewStage;
+	private Stage stage;
 	
 	@FXML
 	public void onMenuItemCloseClick(){
@@ -110,13 +113,37 @@ public class StartViewController implements Initializable {
 	}	
 	
 	public void implementListeners(Stage stage, DataHandler dataHandler){
-		this.startViewStage = stage;
+		this.stage = stage;
+
+
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			
 			@Override
-			public void handle(WindowEvent arg0) {
-				Platform.exit();
-				System.exit(0);
+			public void handle(WindowEvent event) {
+				if(Main.paramMachineMode) {
+					event.consume();
+				} else {
+					Platform.exit();
+					System.exit(0);
+				}
+			}
+		});
+		
+		stage.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if(Main.paramMachineModePw != null) {
+					Main.lastInput += event.getText();
+					if(Main.lastInput.equals(Main.paramMachineModePw)) {
+						Main.lastInput = "";
+						Main.setMachineModeEnabled(!Main.paramMachineMode);
+					} else {
+						if(Main.lastInput.length() >= Main.paramMachineModePw.length()) {
+							Main.lastInput = Main.lastInput.substring(1);
+						}
+					}
+				}
 			}
 		});
 		
@@ -461,8 +488,10 @@ public class StartViewController implements Initializable {
 		
 		controller.setStageAndImplementListeners(connection,
 												modelstage,
-												startViewStage,
+												stage,
 												dataHandler);
+
+		Main.setMachineModeEnabled(Main.paramMachineMode);
 		
 		paneLoading.setVisible(false);
 		close();
@@ -470,7 +499,7 @@ public class StartViewController implements Initializable {
 	}
 	
 	private void close(){
-		startViewStage.hide();
+		stage.hide();
 	}
 	
 	private class RecentConnectionListCell extends ListCell<Connection>{
@@ -615,5 +644,19 @@ public class StartViewController implements Initializable {
 			});
 			setGraphic(hBox);
 		}
+	}
+	
+	public void hideCloseMenu() {
+		menuItemClose.setVisible(false);
+		menuItemCloseSeparator.setVisible(false);
+	}
+	
+	public void showCloseMenu() {
+		menuItemClose.setVisible(true);
+		menuItemCloseSeparator.setVisible(true);
+	}
+	
+	public Stage getStage() {
+		return stage;
 	}
 }
