@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="libs/jxbrowser/jxbrowser-mac-6.21.jar"/>
 	<classpathentry kind="lib" path="libs/jxbrowser/jxbrowser-win32-6.21.jar"/>
 	<classpathentry kind="lib" path="libs/jxbrowser/jxbrowser-win64-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser/license.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser/licence.jar"/>
 	<classpathentry kind="lib" path="libs/jna/jna-4.5.1.jar"/>
 	<classpathentry kind="lib" path="libs/jna/jna-platform-4.5.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
